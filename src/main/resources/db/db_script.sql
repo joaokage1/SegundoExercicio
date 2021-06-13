@@ -10,6 +10,12 @@ CREATE SEQUENCE public.marca_marca_id_seq;
 ALTER SEQUENCE public.marca_marca_id_seq
     OWNER TO admin;
 
+--Sequencia para criar o usuario id
+CREATE SEQUENCE public.usuario_id_seq;
+
+ALTER SEQUENCE public.usuario_id_seq
+    OWNER TO admin;
+
 --Tabela marca
 CREATE TABLE IF NOT EXISTS public.marca
 (
@@ -37,4 +43,17 @@ CREATE TABLE IF NOT EXISTS public.patrimonio
 );
 
 ALTER TABLE public.patrimonio
+    OWNER to admin;
+
+--Tabela usuario
+CREATE TABLE IF NOT EXISTS public.usuario
+(
+    id bigint NOT NULL,
+    nome text NOT NULL,
+    email text NOT NULL,
+    senha text NOT NULL,
+    PRIMARY KEY (id)
+);
+
+ALTER TABLE public.usuario
     OWNER to admin;
