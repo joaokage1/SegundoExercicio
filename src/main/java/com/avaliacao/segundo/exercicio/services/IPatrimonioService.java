@@ -8,7 +8,6 @@ public interface IPatrimonioService {
     public PatrimonioResponse insertPatrimonio(PatrimonioRequest request);
     public PatrimonioResponse buscarTodos();
     public PatrimonioResponse buscarPorNoTombo(PatrimonioRequest request);
-    public PatrimonioResponse buscarPorNome(PatrimonioRequest request);
     public PatrimonioResponse buscarPorMarcaId(PatrimonioRequest request);
     public PatrimonioResponse apagarPatrimonioPeloNoTombo(PatrimonioRequest request);
     public PatrimonioResponse editarPatrimonio(PatrimonioRequest request);
