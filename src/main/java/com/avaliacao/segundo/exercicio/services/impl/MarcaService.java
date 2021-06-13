@@ -98,6 +98,26 @@ public class MarcaService implements IMarcaService {
         return response;
     }
 
+    @Override
+    public MarcaResponse editarMarca(MarcaRequest request) {
+        MarcaResponse response = new MarcaResponse();
+
+        if (request.getMarca() == null || request.getMarca().getMarcaId() == null ){
+            applyErrorMessage(Status.VALIDATION_ERROR,response,"Marca deve existir com um id valido para ser editada");
+            return response;
+        }
+
+        Optional<Marca> marcaOptional = getRepository().findById(request.getMarca().getMarcaId());
+        if (!marcaOptional.isPresent()){
+            applyErrorMessage(Status.VALIDATION_ERROR,response,"Marca requisitada para ser editada não existe");
+            return response;
+        }
+
+        response.setMarcas(Arrays.asList(getRepository().save(request.getMarca())));
+
+        return response;
+    }
+
     private void applyErrorMessage(Status status, MarcaResponse response, String message) {
         response.setStatus(status);
         response.getMessages().add(message);

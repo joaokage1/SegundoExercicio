@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/marca")
+@RequestMapping("/api/marcas")
 @AllArgsConstructor
 @Data
 public class MarcaController {
@@ -24,7 +24,7 @@ public class MarcaController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @GetMapping("/todas")
+    @GetMapping
     public ResponseEntity<MarcaResponse> buscarTodasAsMarcas(){
         MarcaResponse response = getService().buscarTodasAsMarcas();
 
@@ -41,6 +41,13 @@ public class MarcaController {
     @DeleteMapping
     public ResponseEntity<MarcaResponse> deletarMarcaPorId(@RequestBody MarcaRequest request){
         MarcaResponse response = getService().apagarMarcaPeloId(request);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @PutMapping
+    public ResponseEntity<MarcaResponse> editarMarca(@RequestBody MarcaRequest request){
+        MarcaResponse response = getService().editarMarca(request);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

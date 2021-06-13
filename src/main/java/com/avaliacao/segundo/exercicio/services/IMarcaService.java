@@ -8,4 +8,5 @@ public interface IMarcaService {
     public MarcaResponse buscarMarcaPorId(MarcaRequest request);
     public MarcaResponse inserirMarca(MarcaRequest request);
     public MarcaResponse apagarMarcaPeloId(MarcaRequest request);
+    public MarcaResponse editarMarca(MarcaRequest request);
 }
