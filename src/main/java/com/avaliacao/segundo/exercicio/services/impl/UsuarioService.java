@@ -7,7 +7,7 @@ import com.avaliacao.segundo.exercicio.models.response.UsuarioResponse;
 import com.avaliacao.segundo.exercicio.repositories.IUsuarioRepository;
 import com.avaliacao.segundo.exercicio.services.IUsuarioService;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,6 +15,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Component;
 
+import java.security.Key;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +28,8 @@ public class UsuarioService implements IUsuarioService {
 
     private final IUsuarioRepository repository;
     private final AuthenticationManager authenticationManager;
+
+    private final String SECRET = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.e30.Et9HFtf9R3GEMA0IICOfFMVXY7kkTX1wr4qCyhIf58U";
 
     @Override
     public UsuarioResponse cadastrarUsuario(UsuarioRequest request) {
@@ -96,7 +99,6 @@ public class UsuarioService implements IUsuarioService {
     }
 
     private String getJWTToken(String nome) {
-        String secretKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.e30.Et9HFtf9R3GEMA0IICOfFMVXY7kkTX1wr4qCyhIf58U";
         List<GrantedAuthority> grantedAuthorities = AuthorityUtils
                 .commaSeparatedStringToAuthorityList("ROLE_ADMIN");
 
@@ -111,9 +113,13 @@ public class UsuarioService implements IUsuarioService {
                                 .collect(Collectors.toList()))
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 600000))
-                .signWith(SignatureAlgorithm.HS256,
-                        secretKey.getBytes()).compact();
+                .signWith(getSigningKey()).compact();
 
         return "Bearer " + token;
+    }
+
+    private Key getSigningKey() {
+        byte[] keyBytes = SECRET.getBytes();
+        return Keys.hmacShaKeyFor(keyBytes);
     }
 }
